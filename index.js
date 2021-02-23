@@ -1,4 +1,6 @@
 const express = require("express");
+const locationrouter = express.Router();
+const mung = require("express-mung");
 
 let database = [
   { id: 1, latitude: 60, longitude: 70 },
@@ -8,14 +10,25 @@ let database = [
 const app = express();
 app.use(express.static("public"));
 
-const port = process.env.PORT || 8080;
+app.use(
+  mung.json(function transform(body, req, res) {
+    const str = JSON.stringify(body, null, 2);
+    return str;
+  })
+);
 
-app.get("/api/locations", function (req, res) {
-  var str = JSON.stringify(database, null, 2); // spacing level = 2
-  res.contentType("application/json");
-  res.send(str);
+app.use("/api/locations", locationrouter);
+
+locationrouter.get("/", function (req, res) {
+  res.json(database);
 });
 
+locationrouter.get("/1", function (req, res) {
+  res.json(database[0]);
+});
+
+const port = process.env.PORT || 8080;
+
 const server = app.listen(port, () => {
-  console.log(`Demo app listening at http://localhost:${port}`);
+  console.log(`Demo app listening at http://localhost:${port}/api/locations`);
 });
