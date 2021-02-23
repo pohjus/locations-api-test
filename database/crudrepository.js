@@ -5,35 +5,47 @@ let database = [
   { id: counter++, latitude: 40, longitude: 80 },
 ];
 
-const generateTime = () => Math.random() * 3000;
+const generateTime = () => Math.random() * 1000;
 
 module.exports = {
-  findAll: (callback) => setTimeout(() => callback(database), generateTime()),
+  findAll: () => {
+    return new Promise((resolve, reject) => {
+      setTimeout(() => {
+        resolve(database);
+      }, generateTime());
+    });
+  },
 
-  findById: (id, callback) =>
-    setTimeout(
-      () => callback(database.find((item) => item.id === id)),
-      generateTime()
-    ),
+  findById: (id) => {
+    return new Promise((resolve, reject) => {
+      setTimeout(
+        () => resolve(database.find((item) => item.id === id)),
+        generateTime()
+      );
+    });
+  },
+  deleteById: (id) => {
+    return new Promise((resolve, reject) => {
+      setTimeout(() => {
+        let newDB = database.filter((item) => item.id != id);
 
-  deleteById: (id, callback) => {
-    setTimeout(() => {
-      let newDB = database.filter((item) => item.id != id);
-
-      if (newDB.length == database.length) {
-        callback(false);
-      } else {
-        database = newDB;
-        callback(true);
-      }
-    }, generateTime());
+        if (newDB.length == database.length) {
+          resolve(false);
+        } else {
+          database = newDB;
+          resolve(true);
+        }
+      }, generateTime());
+    });
   },
 
   save: (location, callback) => {
-    setTimeout(() => {
-      location.id = counter++;
-      database.push(location);
-      callback(location);
-    }, generateTime());
+    return new Promise((resolve, reject) => {
+      setTimeout(() => {
+        location.id = counter++;
+        database.push(location);
+        resolve(location);
+      }, generateTime());
+    });
   },
 };
