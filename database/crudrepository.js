@@ -39,12 +39,45 @@ module.exports = {
     });
   },
 
-  save: (location, callback) => {
+  save: (location) => {
     return new Promise((resolve, reject) => {
       setTimeout(() => {
         location.id = counter++;
         database.push(location);
         resolve(location);
+      }, generateTime());
+    });
+  },
+
+  updateOrCreate: (location, id) => {
+    return new Promise((resolve, reject) => {
+      setTimeout(() => {
+        const index = database.findIndex((item) => item.id === id);
+        location.id = id;
+
+        if (index == -1) {
+          database.push(location);
+          resolve(201);
+        } else {
+          database[index] = location;
+          resolve(204);
+        }
+      }, generateTime());
+    });
+  },
+
+  update: (location, id) => {
+    return new Promise((resolve, reject) => {
+      setTimeout(() => {
+        const index = database.findIndex((item) => item.id === id);
+
+        if (index == -1) {
+          resolve(404);
+        } else {
+          // merging object
+          database[index] = { ...database[index], ...location };
+          resolve(204);
+        }
       }, generateTime());
     });
   },

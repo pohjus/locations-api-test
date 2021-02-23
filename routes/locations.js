@@ -47,4 +47,39 @@ locationrouter.post(
   }
 );
 
+locationrouter.put(
+  "/:id([0-9]+)",
+  body("latitude").isFloat({ min: -90.0, max: 90.0 }),
+  body("longitude").isFloat({ min: -180.0, max: 180.0 }),
+  async (req, res) => {
+    // Validation
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+
+    let statusCode = await database.updateOrCreate(
+      req.body,
+      Number(req.params.id)
+    );
+    res.status(statusCode).end();
+  }
+);
+
+locationrouter.patch(
+  "/:id([0-9]+)",
+  body("latitude").isFloat({ min: -90.0, max: 90.0 }).optional(),
+  body("longitude").isFloat({ min: -180.0, max: 180.0 }).optional(),
+  async (req, res) => {
+    // Validation
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+
+    let statusCode = await database.update(req.body, Number(req.params.id));
+    res.status(statusCode).end();
+  }
+);
+
 module.exports = locationrouter;
