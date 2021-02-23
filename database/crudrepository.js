@@ -5,22 +5,35 @@ let database = [
   { id: counter++, latitude: 40, longitude: 80 },
 ];
 
+const generateTime = () => Math.random() * 3000;
+
 module.exports = {
-  findAll: () => database,
-  findById: (id) => database.find((item) => item.id === id),
-  deleteById: (id) => {
-    let newDB = database.filter((item) => item.id != id);
+  findAll: (callback) => setTimeout(() => callback(database), generateTime()),
 
-    if (newDB.length == database.length) return false;
+  findById: (id, callback) =>
+    setTimeout(
+      () => callback(database.find((item) => item.id === id)),
+      generateTime()
+    ),
 
-    database = newDB;
+  deleteById: (id, callback) => {
+    setTimeout(() => {
+      let newDB = database.filter((item) => item.id != id);
 
-    return true;
+      if (newDB.length == database.length) {
+        callback(false);
+      } else {
+        database = newDB;
+        callback(true);
+      }
+    }, generateTime());
   },
-  save: (location) => {
-    console.log("save");
-    location.id = counter++;
-    database.push(location);
-    return location;
+
+  save: (location, callback) => {
+    setTimeout(() => {
+      location.id = counter++;
+      database.push(location);
+      callback(location);
+    }, generateTime());
   },
 };

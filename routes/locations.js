@@ -7,25 +7,29 @@ const app = express();
 const database = require("../database/crudrepository.js");
 
 locationrouter.get("/", function (req, res) {
-  res.json(database.findAll());
+  database.findAll((locations) => {
+    res.json(locations);
+  });
 });
 
 locationrouter.get("/:id([0-9]+)", (req, res) => {
-  let location = database.findById(Number(req.params.id));
-  if (location) {
-    res.json(location);
-  } else {
-    res.status(404).send();
-  }
+  database.findById(Number(req.params.id), (location) => {
+    if (location) {
+      res.json(location);
+    } else {
+      res.status(404).send();
+    }
+  });
 });
 
 locationrouter.delete("/:id([0-9]+)", (req, res) => {
-  let result = database.deleteById(req.params.id);
-  if (result) {
-    res.status(204).end();
-  } else {
-    res.status(404).end();
-  }
+  database.deleteById(req.params.id, (result) => {
+    if (result) {
+      res.status(204).end();
+    } else {
+      res.status(404).end();
+    }
+  });
 });
 
 locationrouter.post(
@@ -39,10 +43,11 @@ locationrouter.post(
       return res.status(400).json({ errors: errors.array() });
     }
 
-    let location = database.save(req.body);
-    let fullUrl =
-      req.protocol + "://" + req.get("host") + req.originalUrl + location.id;
-    res.location(fullUrl).status(201).json(location);
+    database.save(req.body, (location) => {
+      let fullUrl =
+        req.protocol + "://" + req.get("host") + req.originalUrl + location.id;
+      res.location(fullUrl).status(201).json(location);
+    });
   }
 );
 

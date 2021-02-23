@@ -9,6 +9,7 @@ app.use(express.static("public"));
 
 app.use(express.json());
 
+/*
 const validate = (loc) => {
   if (!loc) return false;
   if (!loc.hasOwnProperty("latitude") || !loc.hasOwnProperty("longitude"))
@@ -24,7 +25,6 @@ const validate = (loc) => {
   );
 };
 
-/*
 app.use((req, res, next) => {
   if (req.method === "POST") {
     let location = req.body;
