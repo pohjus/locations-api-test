@@ -1,6 +1,8 @@
+let counter = 1;
+
 let database = [
-  { id: 1, latitude: 60, longitude: 70 },
-  { id: 2, latitude: 40, longitude: 80 },
+  { id: counter++, latitude: 60, longitude: 70 },
+  { id: counter++, latitude: 40, longitude: 80 },
 ];
 
 module.exports = {
@@ -14,5 +16,11 @@ module.exports = {
     database = newDB;
 
     return true;
+  },
+  save: (location) => {
+    console.log("save");
+    location.id = counter++;
+    database.push(location);
+    return location;
   },
 };

@@ -6,7 +6,19 @@ const locationrouter = require("./routes/locations.js");
 const app = express();
 app.use(express.static("public"));
 
-app.use(mung.json((body, req, res) => JSON.stringify(body, null, 2)));
+app.use(express.json());
+
+app.use(
+  mung.json((body, req, res) => {
+    return JSON.stringify(body, null, 2);
+  })
+);
+
+app.use(
+  mung.headers((req, res) => {
+    res.contentType("application/json");
+  })
+);
 
 app.use("/api/locations", locationrouter);
 
