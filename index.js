@@ -24,6 +24,7 @@ const validate = (loc) => {
   );
 };
 
+/*
 app.use((req, res, next) => {
   if (req.method === "POST") {
     let location = req.body;
@@ -36,6 +37,7 @@ app.use((req, res, next) => {
     next();
   }
 });
+*/
 
 app.use(
   mung.json((body, req, res) => {
