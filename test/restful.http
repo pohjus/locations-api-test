@@ -1,6 +1,7 @@
 
 
-@host = https://locations-api-v2.herokuapp.com/api
+// @host = https://locations-api-v2.herokuapp.com/api
+@host = https://localhost:8080/api
 
 
 GET {{host}}/locations/
@@ -11,7 +12,7 @@ GET {{host}}/locations/3
 
 ###
 
-DELETE {{host}}/locations/4
+DELETE {{host}}/locations/3
 
 ###
 
@@ -35,7 +36,7 @@ Content-type: application/json
 
 ###
 
-PATCH {{host}}/locations/5
+PATCH {{host}}/locations/1
 Content-type: application/json
 
 {

@@ -10,11 +10,20 @@ const sequelize = new Sequelize(conf.database, conf.user, conf.password, {
   },
 });*/
 
+/*
 const sequelize = new Sequelize("sqlite::memory:", {
   define: {
     timestamps: false,
   },
-}); // Example for sqlite
+});*/
+
+const sequelize = new Sequelize({
+  dialect: "sqlite",
+  storage: "./database/database.sqlite",
+  define: {
+    timestamps: false,
+  },
+});
 
 // Location will be the table name to be Locations,
 // even person -> people will work!
