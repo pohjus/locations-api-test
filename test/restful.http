@@ -1,7 +1,7 @@
 
 
-// @host = https://locations-api-v2.herokuapp.com/api
-@host = https://localhost:8080/api
+@host = https://locations-api-v2.herokuapp.com/api
+// @host = http://localhost:8080/api
 
 
 GET {{host}}/locations/
