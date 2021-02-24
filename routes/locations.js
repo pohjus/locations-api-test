@@ -4,9 +4,11 @@ const { body, validationResult } = require("express-validator");
 
 const app = express();
 
-const database = require("../database/mysqlcrudrepository.js");
+// const database = require("../database/mysqlcrudrepository.js");
 
 // const database = require("../database/arraycrudrepository.js");
+
+const database = require("../database/sequelizecrudrepository.js");
 
 locationrouter.get("/", async (req, res) => {
   let locations = await database.findAll();

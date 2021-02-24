@@ -23,6 +23,9 @@
     "express-mung": "^0.5.1",
     "express-prettify": "^0.1.1",
     "express-validator": "^6.9.2",
-    "mysql": "^2.18.1"
+    "mariadb": "^2.5.3",
+    "mysql": "^2.18.1",
+    "sequelize": "^6.5.0",
+    "sqlite3": "^5.0.2"
   }
 }
