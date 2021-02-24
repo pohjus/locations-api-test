@@ -1,16 +1,21 @@
-GET http://localhost:8080/api/locations/
+
+
+@host = https://locations-api-v2.herokuapp.com/api
+
+
+GET {{host}}/locations/
 
 ###
 
-GET http://localhost:8080/api/locations/2
+GET {{host}}/locations/3
 
 ###
 
-DELETE http://localhost:8080/api/locations/1
+DELETE {{host}}/locations/4
 
 ###
 
-POST http://localhost:8080/api/locations/
+POST {{host}}/locations/
 Content-type: application/json
 
 {
@@ -20,20 +25,20 @@ Content-type: application/json
 
 ###
 
-PUT http://localhost:8080/api/locations/55
+PUT {{host}}/locations/160
 Content-type: application/json
 
 {
-    "latitude": 20.0,
-    "longitude": 110.0
+    "latitude": 22.0,
+    "longitude": 112.0
 }
 
 ###
 
-PATCH http://localhost:8080/api/locations/2
+PATCH {{host}}/locations/5
 Content-type: application/json
 
 {
-    "latitude": 1.0,
-    "longitude": 1.0
+    "latitude": 9.0,
+    "longitude": 11.0
 }
