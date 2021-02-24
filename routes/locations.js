@@ -4,7 +4,9 @@ const { body, validationResult } = require("express-validator");
 
 const app = express();
 
-const database = require("../database/crudrepository.js");
+const database = require("../database/mysqlcrudrepository.js");
+
+// const database = require("../database/arraycrudrepository.js");
 
 locationrouter.get("/", async (req, res) => {
   let locations = await database.findAll();
@@ -21,11 +23,16 @@ locationrouter.get("/:id([0-9]+)", async (req, res) => {
 });
 
 locationrouter.delete("/:id([0-9]+)", async (req, res) => {
-  let result = await database.deleteById(req.params.id);
-  if (result) {
-    res.status(204).end();
-  } else {
-    res.status(404).end();
+  try {
+    let result = await database.deleteById(req.params.id);
+    if (result) {
+      res.status(204).end();
+    } else {
+      res.status(404).end();
+    }
+  } catch (err) {
+    console.log(err);
+    res.status(500).json(err);
   }
 });
 
@@ -40,10 +47,15 @@ locationrouter.post(
       return res.status(400).json({ errors: errors.array() });
     }
 
-    let location = await database.save(req.body);
-    let fullUrl =
-      req.protocol + "://" + req.get("host") + req.originalUrl + location.id;
-    res.location(fullUrl).status(201).json(location);
+    try {
+      let location = await database.save(req.body);
+      let fullUrl =
+        req.protocol + "://" + req.get("host") + req.originalUrl + location.id;
+      res.location(fullUrl).status(201).json(location);
+    } catch (err) {
+      console.log(err);
+      res.status(500).json(err);
+    }
   }
 );
 
@@ -58,11 +70,16 @@ locationrouter.put(
       return res.status(400).json({ errors: errors.array() });
     }
 
-    let statusCode = await database.updateOrCreate(
-      req.body,
-      Number(req.params.id)
-    );
-    res.status(statusCode).end();
+    try {
+      let statusCode = await database.updateOrCreate(
+        req.body,
+        Number(req.params.id)
+      );
+      res.status(statusCode).end();
+    } catch (err) {
+      console.log(err);
+      res.status(500).json(err);
+    }
   }
 );
 
