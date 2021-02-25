@@ -1,5 +1,5 @@
 const mysql = require("mysql");
-const conf = require("../mariadbconfig.js");
+const conf = require("../dbconfig.js");
 const connection = mysql.createConnection(conf);
 
 connection.connect();
